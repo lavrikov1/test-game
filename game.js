@@ -1,6 +1,6 @@
-document.body.addEventListener('touchmove', function(e) {
-    e.preventDefault();
-}, { passive: false });
+//document.body.addEventListener('touchmove', function(e) {
+//    e.preventDefault();
+//}, { passive: false });
 
 
 let speed_alfred = 500;						//миллисикунды
@@ -73,16 +73,25 @@ function enemyCoinLevel1(x, y, radius) {
 	ctx.stroke();
 };
 
-function target(x, y, radius) {
-	//ctx.drawImage(imageTarget, x, y, 100, 100); // Размеры изображения можно изменить
+function target(x, y, radius, directionX, directionY) {
+	// Вычисляем угол, учитывая исходное направление изображения
+    let angle = Math.atan2(directionY - y, directionX - x) + Math.PI / 2; // Корректируем на 90 градусов
+	ctx.save(); // Сохраняем текущее состояние контекста
+	ctx.translate(x, y); // Перемещаем контекст к положению персонажа
+    ctx.rotate(angle); // Поворачиваем контекст на вычисленный угол
+
 	let width = 70;
     let height = 78;
+
     ctx.globalAlpha = 1; // Здесь значение от 0 (полностью прозрачно) до 1 (полностью непрозрачно)
-    ctx.drawImage(imageTarget, x - width / 2, y - height / 2, width, height);
+    ctx.drawImage(imageTarget, -width / 2, -height / 2, width, height);
+
+    ctx.restore(); // Возвращаем контекст в исходное состояние
 
     color = "#ff0000"
     ctx.beginPath();
 	ctx.ellipse(x, y, radius, radius, Math.PI / 4, 0, 2 * Math.PI);
+
 	// Устанавливаем прозрачность для обводки
     ctx.globalAlpha = 0.1; // Здесь значение от 0 (полностью прозрачно) до 1 (полностью непрозрачно)
 	ctx.strokeStyle = color;
@@ -100,8 +109,10 @@ let = enemyCoinObject = {
 let = targetObject = {
 	x: 180,
 	y: 300,
-	dx: 50,					// Направление движения и скорость
-	dy: 50,					// Направление движения и скорость
+	dx: 2,					// Направление движения и скорость
+	dy: 2,					// Направление движения и скорость
+	directionX: 130,
+	directionY: 80,
 	radius: 36
 };
 
@@ -128,7 +139,7 @@ function render() {
 	}
 
 	enemyCoinLevel1(enemyCoinObject.x, enemyCoinObject.y, enemyCoinObject.radius);
-    target(targetObject.x, targetObject.y, targetObject.radius);
+    target(targetObject.x, targetObject.y, targetObject.radius, targetObject.directionX, targetObject.directionY);
 
 
     window.requestAnimationFrame(render);
@@ -137,10 +148,41 @@ function render() {
 window.requestAnimationFrame(render); // Начать анимацию
 
 
-//imageEnemyCoin.onload = function() {
-//    window.requestAnimationFrame(render); // Начать анимацию после загрузки изображения
-//};
 
+
+
+// Элемент, для которого будем отслеживать касания
+const element = document.getElementById('image-container');
+
+// Функция обработки касания
+function handleTouch(event) {
+    event.preventDefault(); // Предотвращаем стандартное поведение браузера
+
+    let touch;
+
+    // Используем 'changedTouches' для события 'touchend'
+    if (event.type === 'touchend') {
+        touch = event.changedTouches[0];
+    } else {
+        touch = event.touches[0];
+    }
+
+    if (touch) {
+        const touchX = touch.clientX;
+        const touchY = touch.clientY;
+        targetObject.directionX = touch.clientX;
+        targetObject.directionY = touch.clientY;
+
+        console.log('Координаты касания: X:', touchX, 'Y:', touchY);
+    } else {
+        console.log('Нет активных касаний');
+    }
+}
+
+// Добавляем обработчики событий
+element.addEventListener('touchstart', handleTouch);
+element.addEventListener('touchmove', handleTouch);
+element.addEventListener('touchend', handleTouch);
 
 
 
