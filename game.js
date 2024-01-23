@@ -149,11 +149,15 @@ const listEnemy = {};
 function render() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+
+	let escapeTarget = {x: 0, y: 0, distance: 10000};
 	// Перебор внешних словарей
 	for (const outerKey in listEnemy) {
 	    if (listEnemy.hasOwnProperty(outerKey)) {
 	        // Получаем объект врага
 	        const enemy = listEnemy[outerKey];
+	        let ex = enemy['x'];
+	        let ry = enemy['y'];
 	        // Преследование пользователя
 	        // Обновляем координаты объекта, чтобы он двигался в направлении цели
 	        const killTarget = moveObjectTowardsDirection(enemy['x'], enemy['y'], targetObject.x, targetObject.y, 0.6);
@@ -161,22 +165,37 @@ function render() {
 	        enemy['x'] = killTarget.x;
 	        enemy['y'] = killTarget.y;
 	        enemyCoinLevel1(enemy['x'], enemy['y'], enemy['radius'].radius);
+
+	        if (killTarget["distance"] < escapeTarget["distance"]) {
+	        	escapeTarget = {x: ex, y: ry, distance: killTarget["distance"]};
+	        }
 	    }
 	}
 
+	const eTD = targetMoveObjectAwayFromDirection(targetObject.x, targetObject.y, escapeTarget["x"], escapeTarget['y'], 0.8);
+	let nTX = eTD["x"];
+	let nTY = eTD["y"];
+	targetObject.x = nTX;
+	targetObject.y = nTY;
+	console.log(nTX - targetObject.dx)
 
+	// Коллизия с ограничением поля движения
+	if (targetObject.y + targetObject.radius >= screenHeight) {
+	    targetObject.y = screenHeight - targetObject.radius; // Предотвращение застревания за пределами
+	    targetObject.dy *= -1;
+	} else if (targetObject.y - targetObject.radius <= 0) {
+	    targetObject.y = targetObject.radius; // Предотвращение застревания за пределами
+	    targetObject.dy *= -1;
+	}
+	if (targetObject.x + targetObject.radius >= screenWidth) {
+	    targetObject.x = screenWidth - targetObject.radius; // Предотвращение застревания за пределами
+	    targetObject.dx *= -1;
+	} else if (targetObject.x - targetObject.radius <= 0) {
+	    targetObject.x = targetObject.radius; // Предотвращение застревания за пределами
+	    targetObject.dx *= -1;
+	}
 
-	targetObject.x += targetObject.dx
-	targetObject.y += targetObject.dy
-
-
-	// Колизия с ограничением поля движения
-	if ((targetObject.y + targetObject.radius >= screenHeight) || (targetObject.y - targetObject.radius <= 0)) {
-		targetObject.dy = targetObject.dy * (-1);
-	};
-	if ((targetObject.x + targetObject.radius >= screenWidth) || (targetObject.x - targetObject.radius <= 0)) {
-		targetObject.dx = targetObject.dx * (-1);
-	};
+	target(targetObject.x, targetObject.y, targetObject.radius, targetObject.directionX, targetObject.directionY);
 
 
 	if (checkEnemyTargetCollision(enemyCoinObject, targetObject)) {
@@ -184,10 +203,6 @@ function render() {
 	} else {
 		//console.log('False')
 	}
-
-
-
-    target(targetObject.x, targetObject.y, targetObject.radius, targetObject.directionX, targetObject.directionY);
     
 
 
@@ -241,6 +256,7 @@ function moveObjectTowardsDirection(x, y, directionX, directionY, speed) {
     // Вычисляем разницу между текущим положением и целевым положением
     const deltaX = directionX - x;
     const deltaY = directionY - y;
+    let distanceEnemyToTarget = Math.abs(deltaX) + Math.abs(deltaY);
     
     // Вычисляем угол между текущим положением и целевым положением
     const angle = Math.atan2(deltaY, deltaX);
@@ -249,6 +265,21 @@ function moveObjectTowardsDirection(x, y, directionX, directionY, speed) {
     const newX = x + Math.cos(angle) * speed;
     const newY = y + Math.sin(angle) * speed;
     
+    return { x: newX, y: newY, distance: distanceEnemyToTarget};
+}
+
+function targetMoveObjectAwayFromDirection(x, y, directionX, directionY, speed) {
+    // Вычисляем разницу между текущим положением и целевым положением
+    const deltaX = directionX - x;
+    const deltaY = directionY - y;
+    
+    // Вычисляем угол между текущим положением и целевым положением
+    const angle = Math.atan2(deltaY, deltaX);
+    
+    // Для убегания от точки, мы умножаем скорость на -1, чтобы двигаться в противоположном направлении
+    const newX = x - Math.cos(angle) * speed;
+    const newY = y - Math.sin(angle) * speed;
+    
     return { x: newX, y: newY };
 }
 
@@ -256,7 +287,8 @@ function moveObjectTowardsDirection(x, y, directionX, directionY, speed) {
 
 
 
-// --=--=--=--=--=-- // Генерация новых врагов --=--=--=--=--=--=--=--=--=--=--=--
+
+// --=--=--=--=--=-- // Генерация новых врагов Монеток! --=--=--=--=--=--=--=--=--=--=--=--
 // Генерация IDName
 function generateRandomEnemyName(length) {
     var result = '';
@@ -319,7 +351,7 @@ setInterval(function() {
 		listEnemy[newEnemy.id] = newEnemy;
 	};
 },1000)
-// --=--=--=--=--=-- // Генерация новых врагов --=--=--=--=--=--=--=--=--=--=--=--
+// --=--=--=--=--=-- // Генерация новых врагов Монеток! --=--=--=--=--=--=--=--=--=--=--=--
 
 
 
