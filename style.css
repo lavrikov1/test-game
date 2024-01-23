@@ -1,0 +1,41 @@
+body {
+	display: flex;
+	justify-content: center;
+	background: #FF1323;
+	margin: 0;
+	overflow: hidden; /* Запретить прокрутку */
+	width: 100%; /* Ширина страницы занимает 100% ширины окна браузера */
+	height: 100%; /* Высота страницы занимает 100% высоты окна браузера */
+}
+
+@keyframes enemyCoinRotate360 {
+  0% {
+    transform: rotate(0deg); /* Начальный угол 0 градусов */
+  }
+  100% {
+    transform: rotate(360deg); /* Конечный угол 360 градусов */
+  }
+}
+
+.enemyCoin {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    height: 5vh;
+    width: auto;
+    transform: translateX(-50%);
+    animation: enemyCoinRotate360 3s linear infinite;
+    transition: top 1s ease, left 1s ease;
+}
+
+#headAlfred {
+		position: absolute;
+    width: 10vh;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    transform-origin: center;
+    transition: top 0.5s linear, left 0.5s linear, transform 0.7s ease;
+}
+
+
