@@ -143,7 +143,7 @@ let bulletObject = {
 	y: 150,
 	dx: 1,
 	dy: 1,
-	radius: 10
+	radius: 5
 }
 
 const listEnemy = {};		// Все враги
@@ -234,9 +234,25 @@ function render() {
 		    bull.x += bull.dx * 10;
 		    bull.y += bull.dy * 10;
 	        bullet(bull.x, bull.y, bull.radius);
-	    }
-	}
 
+	        for (const outerKey in listEnemy) {
+			    if (listEnemy.hasOwnProperty(outerKey)) {
+			        // Получаем объект врага
+			        const enemy = listEnemy[outerKey];
+			        if (checkEnemyTargetCollision(bull, enemy)) {
+
+			        	if (listEnemy.hasOwnProperty(enemy["id"])) {
+  							delete listEnemy[enemy["id"]];
+  							console.log(listEnemy[enemy["id"]])
+  						}
+						console.log('True')
+					} else {
+						//console.log('False')
+					}
+		    	}
+			}
+		}
+	}
     window.requestAnimationFrame(render);
 };
 window.requestAnimationFrame(render); // Начать анимацию
@@ -261,11 +277,11 @@ setInterval(function() {
 			y: targetObject["y"],
 			dx: direction.dx,					// Направление движения и скорость
 			dy: direction.dy,					// Направление движения и скорость
-			radius: 20
+			radius: 5
 		};
 		listBullet[newBullet.id] = newBullet;
 	}
-},50)
+},100)
 // --=--=--=--=--=-- Создаю пули --=--=--=--=--=--=--=--=--=--=--=--
 
 
