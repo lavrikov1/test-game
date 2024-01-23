@@ -41,6 +41,7 @@ let ctx = canvas.getContext("2d");
 //Монета убийца
 let imageEnemyCoin = new Image();
 imageEnemyCoin.src = 'img/test-coin.png';
+let sizeEnemy = 15;
 
 //Пуля
 let imageBullet = new Image();
@@ -63,8 +64,8 @@ function checkEnemyTargetCollision(enemyC, targetC) {
 };
 
 function enemyCoinLevel1(x, y, radius) {
-	let enemyCoinWidht = screenWidth / 15;
-	let enemyCoinHeight = screenWidth / 15;
+	let enemyCoinWidht = screenWidth / sizeEnemy;
+	let enemyCoinHeight = screenWidth / sizeEnemy;
 	ctx.globalAlpha = 1; // Здесь значение от 0 (полностью прозрачно) до 1 (полностью непрозрачно)
 
 	ctx.drawImage(imageEnemyCoin, x - enemyCoinWidht / 2, y - enemyCoinHeight / 2, enemyCoinWidht, enemyCoinHeight); // Размеры изображения можно изменить
@@ -284,31 +285,38 @@ function countNestedObjects(obj) {
 setInterval(function() {
 	let countEnemyCoin = countNestedObjects(listEnemy);
 
+	// Функция для выбора рандомной стороны для появления монетки на поле битвы
 	function startPositionEnemyCoin() {
 		let randomPosition = Math.floor(Math.random() * 4);
-		if (randomPosition == 0) {
-			pass
-		} else if (randomPosition == 1) {
-			pass
-		} else if (randomPosition == 3) {
-			pass
-		} else {
-
+		if (randomPosition == 0) {			// Лево
+			x = 0 - screenWidth / sizeEnemy;
+			y = Math.floor(Math.random() * (screenHeight - 0 + 1)) + 0;
+		} else if (randomPosition == 1) {	// Верх
+			x = Math.floor(Math.random() * (screenWidth - 0 + 1)) + 0;
+			y = 0 - screenHeight / sizeEnemy;
+		} else if (randomPosition == 3) {	// Право
+			x = screenWidth + screenWidth / sizeEnemy;
+			y = Math.floor(Math.random() * (screenHeight - 0 + 1)) + 0;
+		} else {							// Низ
+			x = Math.floor(Math.random() * (screenWidth - 0 + 1)) + 0;
+			y = screenHeight + screenHeight / sizeEnemy;
 		}
+		const result = {x: x, y: y};
+		return result;
 	};
 
 	//Генерирую новых врагов если их меньше X
 	if (countEnemyCoin < 20) {
+		let np = startPositionEnemyCoin();
 		const newEnemy = {
 			id: generateRandomEnemyName(15),
-			x: 20,
-			y: 20,
+			x: np["x"],
+			y: np["y"],
 			dx: 1,					// Направление движения и скорость
 			dy: 1,					// Направление движения и скорость
 			radius: 20
 		};
 		listEnemy[newEnemy.id] = newEnemy;
-		console.log("Добавил Врага!:  ", listEnemy);
 	};
 },1000)
 // --=--=--=--=--=-- // Генерация новых врагов --=--=--=--=--=--=--=--=--=--=--=--
