@@ -46,6 +46,7 @@ let sizeEnemy = 15;
 //Пуля
 let imageBullet = new Image();
 imageBullet.src = 'img/bullet.png';
+let strike = false;							// True стреляет False не стреляет
 
 // Пользователь
 let imageTarget = new Image();
@@ -145,12 +146,17 @@ let bulletObject = {
 	radius: 10
 }
 
-const listEnemy = {};
+const listEnemy = {};		// Все враги
+const listBullet = {};		// Все пули
+let fireX = 0;
+let fireY = 0;
+
+
 function render() {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 
-	let escapeTarget = {x: 0, y: 0, distance: 10000};
+	let escapeTarget = {x: 0, y: 0, distance: 10000};	// Координаты ближайшей цели из всех
 	// Перебор внешних словарей
 	for (const outerKey in listEnemy) {
 	    if (listEnemy.hasOwnProperty(outerKey)) {
@@ -177,9 +183,8 @@ function render() {
 	let nTY = eTD["y"];
 	targetObject.x = nTX;
 	targetObject.y = nTY;
-	console.log(nTX - targetObject.dx)
 
-	// Коллизия с ограничением поля движения
+	// Коллизия с ограничением поля движения для Пользователя
 	if (targetObject.y + targetObject.radius >= screenHeight) {
 	    targetObject.y = screenHeight - targetObject.radius; // Предотвращение застревания за пределами
 	    targetObject.dy *= -1;
@@ -198,6 +203,9 @@ function render() {
 	target(targetObject.x, targetObject.y, targetObject.radius, targetObject.directionX, targetObject.directionY);
 
 
+
+
+
 	if (checkEnemyTargetCollision(enemyCoinObject, targetObject)) {
 		//console.log('True')
 	} else {
@@ -211,11 +219,56 @@ function render() {
     // Обновляем текущие координаты объекта
     bulletObject.x = newPosition.x;
     bulletObject.y = newPosition.y;
-    bullet(bulletObject.x, bulletObject.y, bulletObject.radius);
+
+
+
+
+    // Перебор внешних словарей для пуль
+	for (const outerKey in listBullet) {
+	    if (listBullet.hasOwnProperty(outerKey)) {
+	        // Получаем объект пули
+	        const bull = listBullet[outerKey];
+	        let ex = bull['x'];
+	        let ry = bull['y'];
+	        // В функции обновления (анимации)
+		    bull.x += bull.dx * 10;
+		    bull.y += bull.dy * 10;
+	        bullet(bull.x, bull.y, bull.radius);
+	    }
+	}
 
     window.requestAnimationFrame(render);
 };
 window.requestAnimationFrame(render); // Начать анимацию
+
+
+// --=--=--=--=--=-- Создаю пули --=--=--=--=--=--=--=--=--=--=--=--
+setInterval(function() {
+	function calculateDirection(x1, y1, x2, y2) {
+	    const deltaX = x2 - x1;
+	    const deltaY = y2 - y1;
+	    const angle = Math.atan2(deltaY, deltaX);
+	    return { dx: Math.cos(angle), dy: Math.sin(angle) };
+	}
+
+	// При стрельбе
+	const direction = calculateDirection(targetObject["x"], targetObject["y"], fireX, fireY);
+
+	if (strike == true) {
+		const newBullet = {
+			id: generateRandomEnemyName(15),
+			x: targetObject["x"],
+			y: targetObject["y"],
+			dx: direction.dx,					// Направление движения и скорость
+			dy: direction.dy,					// Направление движения и скорость
+			radius: 20
+		};
+		listBullet[newBullet.id] = newBullet;
+	}
+},50)
+// --=--=--=--=--=-- Создаю пули --=--=--=--=--=--=--=--=--=--=--=--
+
+
 
 
 
@@ -225,7 +278,8 @@ const element = document.getElementById('image-container'); 		// Получае�
 function handleTouch(event) {										// Функция-обработчик событий касания.
     event.preventDefault();											// Предотвращаем стандартное поведение браузера для события касания (например, прокрутку страницы).
     if (event.type === 'touchend' && event.touches.length === 0) {	// Проверяем, является ли событие событием 'touchend' и нет ли активных касаний.
-        console.log('Нет активных касаний');						// Выводим сообщение в консоль, если это событие 'touchend' и касаний нет.
+        console.log('Нет активных касаний');
+        strike = false;						// Выводим сообщение в консоль, если это событие 'touchend' и касаний нет.
         return; 													// Завершаем обработчик, так как касаний нет.
     }
     // Получаем объект касания. Для 'touchend' используем 'changedTouches[0]', для остальных - 'touches[0]'.
@@ -233,12 +287,16 @@ function handleTouch(event) {										// Функция-обработчик с
     // Получаем координаты X и Y касания относительно видового экрана (viewport).
     const touchX = touch.clientX;
     const touchY = touch.clientY;
+    fireX = touchX;
+    fireY = touchY;
     // Обновляем направление объекта targetObject на основе координат касания.
     targetObject.directionX = touchX;
     targetObject.directionY = touchY;
-    if (event.type === 'touchmove') {								// Проверяем, является ли событие событием 'touchmove'.
+    if (event.type === 'touchmove') {
+    	strike = true;								// Проверяем, является ли событие событием 'touchmove'.
         console.log('Удержание: X:', touchX, 'Y:', touchY);			// Выводим координаты в консоль при удержании пальца на экране.
     } else {
+    	strike = true;
         console.log('Касание: X:', touchX, 'Y:', touchY);			// Выводим координаты в консоль при начальном касании или окончании касания.
     }
 }
@@ -251,7 +309,7 @@ element.addEventListener('touchend', handleTouch);					// Назначаем о�
 
 
 
-
+// --=--=--=--=--=-- Считаем растояние от монетки к пользователю и наоборот --=--=--=--=--=--=--=--=--=--=--=--
 function moveObjectTowardsDirection(x, y, directionX, directionY, speed) {
     // Вычисляем разницу между текущим положением и целевым положением
     const deltaX = directionX - x;
@@ -267,7 +325,6 @@ function moveObjectTowardsDirection(x, y, directionX, directionY, speed) {
     
     return { x: newX, y: newY, distance: distanceEnemyToTarget};
 }
-
 function targetMoveObjectAwayFromDirection(x, y, directionX, directionY, speed) {
     // Вычисляем разницу между текущим положением и целевым положением
     const deltaX = directionX - x;
@@ -282,7 +339,7 @@ function targetMoveObjectAwayFromDirection(x, y, directionX, directionY, speed) 
     
     return { x: newX, y: newY };
 }
-
+// --=--=--=--=--=-- Считаем растояние от монетки к пользователю и наоборот --=--=--=--=--=--=--=--=--=--=--=--
 
 
 
