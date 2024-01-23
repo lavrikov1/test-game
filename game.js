@@ -63,8 +63,8 @@ function checkEnemyTargetCollision(enemyC, targetC) {
 };
 
 function enemyCoinLevel1(x, y, radius) {
-	let enemyCoinWidht = 40;
-	let enemyCoinHeight = 40;
+	let enemyCoinWidht = screenWidth / 15;
+	let enemyCoinHeight = screenWidth / 15;
 	ctx.globalAlpha = 1; // Здесь значение от 0 (полностью прозрачно) до 1 (полностью непрозрачно)
 
 	ctx.drawImage(imageEnemyCoin, x - enemyCoinWidht / 2, y - enemyCoinHeight / 2, enemyCoinWidht, enemyCoinHeight); // Размеры изображения можно изменить
@@ -155,7 +155,7 @@ function render() {
 	        const enemy = listEnemy[outerKey];
 	        // Преследование пользователя
 	        // Обновляем координаты объекта, чтобы он двигался в направлении цели
-	        const killTarget = moveObjectTowardsDirection(enemy['x'], enemy['y'], targetObject.x, targetObject.y, 0.3);
+	        const killTarget = moveObjectTowardsDirection(enemy['x'], enemy['y'], targetObject.x, targetObject.y, 0.6);
 	        // Обновляем текущие координаты объекта
 	        enemy['x'] = killTarget.x;
 	        enemy['y'] = killTarget.y;
@@ -283,6 +283,19 @@ function countNestedObjects(obj) {
 }
 setInterval(function() {
 	let countEnemyCoin = countNestedObjects(listEnemy);
+
+	function startPositionEnemyCoin() {
+		let randomPosition = Math.floor(Math.random() * 4);
+		if (randomPosition == 0) {
+			pass
+		} else if (randomPosition == 1) {
+			pass
+		} else if (randomPosition == 3) {
+			pass
+		} else {
+
+		}
+	};
 
 	//Генерирую новых врагов если их меньше X
 	if (countEnemyCoin < 20) {
