@@ -1,3 +1,8 @@
+document.body.addEventListener('touchmove', function(e) {
+    e.preventDefault();
+}, { passive: false });
+
+
 let speed_alfred = 500;						//миллисикунды
 
 
