@@ -39,3 +39,12 @@ body {
 }
 
 
+.rectangle {
+    display: inline-block;
+    padding: 5px;
+    background-color: "#181A20"; /* Фон с прозрачностью 80% (alpha = 0.8) */
+    color: white;
+    border-radius: 5px;
+    border: 1px solid red; /* Задаем цвет обводки - красный */
+    white-space: nowrap;
+}
