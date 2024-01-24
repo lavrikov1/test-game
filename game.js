@@ -240,8 +240,8 @@ function render() {
 	        let ex = bull['x'];
 	        let ry = bull['y'];
 	        // В функции обновления (анимации)
-		    bull.x += bull.dx * 10;
-		    bull.y += bull.dy * 10;
+		    bull.x += bull.dx * 25;
+		    bull.y += bull.dy * 25;
 	        bullet(bull.x, bull.y, bull.radius);
 
 	        for (const outerKey in listEnemy) {
