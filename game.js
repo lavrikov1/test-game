@@ -184,23 +184,32 @@ function render() {
 	targetObject.x = nTX;
 	targetObject.y = nTY;
 
+	// Вычисление границ
+	const horizontalMargin = screenWidth * 0.2; // 20% от ширины
+	const topMargin = screenHeight * 0.2; // 20% от высоты
+	const bottomMargin = screenHeight * 0.3; // 30% от высоты
+	const leftBoundary = horizontalMargin;
+	const rightBoundary = screenWidth - horizontalMargin;
+	const topBoundary = topMargin;
+	const bottomBoundary = screenHeight - bottomMargin;
 	// Коллизия с ограничением поля движения для Пользователя
-	if (targetObject.y + targetObject.radius >= screenHeight) {
-	    targetObject.y = screenHeight - targetObject.radius; // Предотвращение застревания за пределами
+	if (targetObject.y + targetObject.radius >= bottomBoundary) {
+	    targetObject.y = bottomBoundary - targetObject.radius;
 	    targetObject.dy *= -1;
-	} else if (targetObject.y - targetObject.radius <= 0) {
-	    targetObject.y = targetObject.radius; // Предотвращение застревания за пределами
+	} else if (targetObject.y - targetObject.radius <= topBoundary) {
+	    targetObject.y = topBoundary + targetObject.radius;
 	    targetObject.dy *= -1;
 	}
-	if (targetObject.x + targetObject.radius >= screenWidth) {
-	    targetObject.x = screenWidth - targetObject.radius; // Предотвращение застревания за пределами
+	if (targetObject.x + targetObject.radius >= rightBoundary) {
+	    targetObject.x = rightBoundary - targetObject.radius;
 	    targetObject.dx *= -1;
-	} else if (targetObject.x - targetObject.radius <= 0) {
-	    targetObject.x = targetObject.radius; // Предотвращение застревания за пределами
+	} else if (targetObject.x - targetObject.radius <= leftBoundary) {
+	    targetObject.x = leftBoundary + targetObject.radius;
 	    targetObject.dx *= -1;
 	}
 
 	target(targetObject.x, targetObject.y, targetObject.radius, targetObject.directionX, targetObject.directionY);
+
 
 
 
