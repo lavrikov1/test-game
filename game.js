@@ -105,20 +105,35 @@ function target(x, y, radius, directionX, directionY) {
 };
 
 
-function bullet(x, y, radius) {
-	let bulletWidht = 20;
-	let bulletHeight = 20;
-	ctx.globalAlpha = 1; // Здесь значение от 0 (полностью прозрачно) до 1 (полностью непрозрачно)
+function bullet(x, y, dx, dy, radius) {
+    let bulletWidth = 20;
+    let bulletHeight = 20;
 
-	ctx.drawImage(imageBullet, x - bulletWidht / 2, y - bulletHeight / 2, bulletWidht, bulletHeight); // Размеры изображения можно изменить
+    // Рассчитываем угол в радианах и корректируем его на 90 градусов (π/2 радиан)
+    let angle = Math.atan2(dy, dx) + Math.PI / 2;
 
-	ctx.beginPath();
-	ctx.ellipse(x, y, radius, radius, Math.PI / 4, 0, 2 * Math.PI);
-	ctx.strokeStyle = "#ff0000";
-	ctx.globalAlpha = 0.8; // Здесь значение от 0 (полностью прозрачно) до 1 (полностью непрозрачно)
+    ctx.save(); // Сохраняем текущее состояние контекста
 
-	ctx.stroke();
-};
+    // Перемещаем контекст к положению пули и поворачиваем его
+    ctx.translate(x, y);
+    ctx.rotate(angle);
+
+    // Рисуем пулю
+    ctx.globalAlpha = 1;
+    ctx.drawImage(imageBullet, -bulletWidth / 2, -bulletHeight / 2, bulletWidth, bulletHeight);
+
+    // Восстанавливаем контекст
+    ctx.restore();
+
+    // Дополнительно: рисуем круг вокруг пули (если нужно)
+    ctx.beginPath();
+    ctx.ellipse(x, y, radius, radius, Math.PI / 4, 0, 2 * Math.PI);
+    ctx.strokeStyle = "#ff0000";
+    ctx.globalAlpha = 0;
+    ctx.stroke();
+}
+
+
 
 let enemyCoinObject = {
 	x: 20,
@@ -178,6 +193,40 @@ function render() {
 	    }
 	}
 
+	// Перебор внешних словарей для пуль
+	for (const outerKey in listBullet) {
+	    if (listBullet.hasOwnProperty(outerKey)) {
+	        // Получаем объект пули
+	        const bull = listBullet[outerKey];
+	        let ex = bull['x'];
+	        let ry = bull['y'];
+	        // В функции обновления (анимации)
+		    bull.x += bull.dx * 20;
+		    bull.y += bull.dy * 20;
+	        bullet(bull.x, bull.y, bull.dx, bull.dy, bull.radius);
+
+	        for (const outerKey in listEnemy) {
+			    if (listEnemy.hasOwnProperty(outerKey)) {
+			        // Получаем объект врага
+			        const enemy = listEnemy[outerKey];
+			        if (checkEnemyTargetCollision(bull, enemy)) {
+			        	if (listEnemy.hasOwnProperty(enemy["id"])) {
+  							delete listEnemy[enemy["id"]];
+  							delete listBullet[bull["id"]];
+  							console.log(listEnemy[enemy["id"]])
+  						}
+						console.log('True')
+					} else {
+						//console.log('False')
+					}
+		    	}
+			}
+		}
+	}
+
+
+	
+
 	const eTD = targetMoveObjectAwayFromDirection(targetObject.x, targetObject.y, escapeTarget["x"], escapeTarget['y'], 0.8);
 	let nTX = eTD["x"];
 	let nTY = eTD["y"];
@@ -229,39 +278,6 @@ function render() {
     bulletObject.x = newPosition.x;
     bulletObject.y = newPosition.y;
 
-
-
-
-    // Перебор внешних словарей для пуль
-	for (const outerKey in listBullet) {
-	    if (listBullet.hasOwnProperty(outerKey)) {
-	        // Получаем объект пули
-	        const bull = listBullet[outerKey];
-	        let ex = bull['x'];
-	        let ry = bull['y'];
-	        // В функции обновления (анимации)
-		    bull.x += bull.dx * 25;
-		    bull.y += bull.dy * 25;
-	        bullet(bull.x, bull.y, bull.radius);
-
-	        for (const outerKey in listEnemy) {
-			    if (listEnemy.hasOwnProperty(outerKey)) {
-			        // Получаем объект врага
-			        const enemy = listEnemy[outerKey];
-			        if (checkEnemyTargetCollision(bull, enemy)) {
-
-			        	if (listEnemy.hasOwnProperty(enemy["id"])) {
-  							delete listEnemy[enemy["id"]];
-  							console.log(listEnemy[enemy["id"]])
-  						}
-						console.log('True')
-					} else {
-						//console.log('False')
-					}
-		    	}
-			}
-		}
-	}
     window.requestAnimationFrame(render);
 };
 window.requestAnimationFrame(render); // Начать анимацию
