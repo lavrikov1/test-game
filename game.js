@@ -40,7 +40,7 @@ let ctx = canvas.getContext("2d");
 
 //Монета убийца
 let imageEnemyCoin = new Image();
-imageEnemyCoin.src = 'img/test-coin.png';
+imageEnemyCoin.src = 'img/test-coin.svg';
 let sizeEnemy = 15;
 
 //Пуля
