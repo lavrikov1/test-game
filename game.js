@@ -225,7 +225,7 @@ function render() {
 	}
 
 
-	
+
 
 	const eTD = targetMoveObjectAwayFromDirection(targetObject.x, targetObject.y, escapeTarget["x"], escapeTarget['y'], 0.8);
 	let nTX = eTD["x"];
@@ -448,7 +448,7 @@ setInterval(function() {
 		};
 		listEnemy[newEnemy.id] = newEnemy;
 	};
-},1000)
+},300)
 // --=--=--=--=--=-- // Генерация новых врагов Монеток! --=--=--=--=--=--=--=--=--=--=--=--
 
 
