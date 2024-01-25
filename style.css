@@ -57,7 +57,7 @@ body {
     right: 10px; /* Отступ справа */
     bottom: 10px; /* Отступ снизу */
     height: 20px; /* Высота прямоугольника */
-    background: linear-gradient(to right, #F0B90B, #4dea56); /* Градиент от #F0B90B до белого */
+    background: linear-gradient(to right, #F0B90B, #65cd19); /* Градиент от #F0B90B до белого */
     border-radius: 10px; /* Заокругленные углы */
     z-index: 1000; /* Убедитесь, что прямоугольник будет поверх других элементов */
 }
