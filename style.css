@@ -100,7 +100,6 @@ body {
 .floatingText {
     position: absolute;
     animation: floatAndFade 1s ease-in-out forwards;
-    color: white; /* Белый цвет текста */
     font-size: 24px; /* Увеличенный размер текста */
     font-family: 'Arial', sans-serif; /* Стильный шрифт, например Arial */
     text-shadow: 1px 1px 2px black; /* Тень текста для лучшей читаемости */
