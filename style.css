@@ -53,9 +53,10 @@ body {
 }
 
 .rectangleHp2 {
-    position: fixed; /* Фиксированное положение */
-    left: 10px; /* Отступ слева */
-    right: 10px; /* Отступ справа */
+    position: absolute; /* контейнер */
+    overflow: hidden; /* предотвращает выход дочерних элементов за пределы контейнера */
+    left: 15px; /* Отступ слева */
+    right: 15px; /* Отступ справа */
     bottom: 10px; /* Отступ снизу */
     height: 15px; /* Высота прямоугольника */
     background: linear-gradient(to right, #181A20, #181A20); /* Черный градиент */
@@ -65,12 +66,11 @@ body {
 }
 
 .rectangleHp {
-	  width: calc(100% - 20px); /* 10px слева и 10px справа */
-    position: fixed; /* Фиксированное положение */
-    left: 10px; /* Отступ слева */
-    right: 10px; /* Отступ справа */
-    bottom: 10px; /* Отступ снизу */
-    height: 15px; /* Высота прямоугольника */
+    position: absolute; /* абсолютное позиционирование внутри rectangleHp2 */
+    left: 0;
+    bottom: 0;
+    height: 100%; /* высота соответствует родителю */
+    width: 100%; /* начальная ширина соответствует родителю */
     background: linear-gradient(to right, #F0B90B, #65cd19); /* Градиент от #F0B90B до белого */
     border-radius: 10px; /* Заокругленные углы */
     z-index: 1000; /* Убедитесь, что прямоугольник будет поверх других элементов */
@@ -145,21 +145,6 @@ body {
     font-family: 'Arial', sans-serif; /* Стильный шрифт, например Arial */
     text-shadow: 1px 1px 2px black; /* Тень текста для лучшей читаемости */
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
