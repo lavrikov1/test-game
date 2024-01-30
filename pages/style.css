@@ -1,0 +1,30 @@
+html, body {
+    background-color: #000000;
+    margin: 0;
+    padding: 0;
+    height: 100%; /* Убедитесь, что html и body занимают всю высоту страницы */
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+#fatherContainer {
+    position: relative; /* Добавлено относительное позиционирование */
+    width: 100%; /* Занимает всю ширину родительского элемента */
+    height: 350px; /* Фиксированная высота */
+    overflow: hidden; /* Скрыть содержимое, выходящее за пределы контейнера */
+    border: 1px solid black; /* Для наглядности добавим границу */
+}
+
+.matte-gray-rectangle {
+    border-radius: 10px;
+    margin: 20px; /* Отступы со всех сторон по 20px */
+    height: 100px; /* Высота прямоугольника */
+    background-color: #808080; /* Серый цвет */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Добавление тени */
+    opacity: 0.7; /* Добавление матового эффекта (прозрачности) */
+}
+
