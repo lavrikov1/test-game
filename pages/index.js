@@ -34,11 +34,11 @@ var w = c.width = window.innerWidth,
 			wireframeWidth: .2,
 			wireframeColor: '#757575',
 			
-			depth: 280,
-			focalLength: 220,
+			depth: 260,
+			focalLength: 200,
 			vanishPoint: {
 				x: w / 2,
-				y: 245
+				y: 190
 			}
 		},
 		
