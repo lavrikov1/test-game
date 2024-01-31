@@ -177,15 +177,17 @@ body {
 
 
 .glassmorphism {
-  font-family: 'Meiryo', sans-serif; /* Сначала указывается 'Meiryo', затем альтернативные шрифты */
+  font-family: 'Meiryo', sans-serif;
   animation: glassmorphism 5s infinite ease-in-out;
-  opacity: 0.7;
+  opacity: 0.9; /* Увеличено для лучшей видимости */
   border-radius: 10px;
   padding: 5px;
-  backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px); /* Увеличенный эффект размытия для более выраженного эффекта матового стекла */
+  -webkit-backdrop-filter: blur(10px); /* Для поддержки в Safari */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Чуть более заметная граница */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Чуть более выраженная тень для лучшей видимости */
 }
+
 
 
 
