@@ -350,3 +350,15 @@ window.addEventListener( 'resize', function(){
 	ctx.fillRect( 0, 0, w, h );
 });
 window.addEventListener( 'click', init );
+
+
+
+
+// --=--=--=--=--=--=--  --=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
+// Получаем ширину и высоту экрана
+var screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+var screenHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+let sizeImageLogoAlfred = document.getElementById("idLogoAlfred")
+sizeImageLogoAlfred.style.width = screenWidth * 0.8 + 'px';
+sizeImageLogoAlfred.style.marginTop = "200px";
