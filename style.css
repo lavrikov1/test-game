@@ -238,7 +238,7 @@ body {
 
   transition: right 0.2s ease-in-out;
   right: -250px; /* Начальное положение за пределами экрана */
-  bottom: 88px;
+  bottom: 89px;
   position: absolute;
   display: flex;
   flex-direction: column; /* Указывает на горизонтальное расположение элементов */
@@ -249,7 +249,9 @@ body {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Тень вокруг контейнера */
   backdrop-filter: blur(10px); /* Эффект размытия (blur) */
   -webkit-backdrop-filter: blur(10px); /* Для браузеров на движке WebKit, как Safari */
-  border: 1px solid rgba(255, 255, 255, 0.3); /* Граница вокруг контейнера */
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  border-right: 1px solid rgba(255, 255, 255, 0.3);
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
   z-index: 1069; /* Уровень наложения */
 }
 
