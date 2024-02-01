@@ -192,6 +192,44 @@ body {
 
 
 
+.glassmorphism-container {
+  padding-left: 10px; /* Увеличивает внутренний отступ контейнера */
+  padding-right: 10px; /* Увеличивает внутренний отступ контейнера */
+  padding-top: 0px;
+
+  right: 15px;
+  bottom: 40px;
+  position: absolute;
+  display: flex;
+  justify-content: space-around; /* Равномерно распределяет элементы в контейнере с одинаковыми интервалами */
+  align-items: center; /* Центрирует элементы по вертикали */
+  border-radius: 10px; /* Скругление углов */
+  overflow: hidden; /* Скрывает части изображений, выходящие за рамки скругления */
+  background-color: rgba(255, 255, 255, 0.1); /* Цвет фона с прозрачностью */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Тень вокруг контейнера */
+  backdrop-filter: blur(10px); /* Эффект размытия (blur) */
+  -webkit-backdrop-filter: blur(10px); /* Для браузеров на движке WebKit, как Safari */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Граница вокруг контейнера */
+  z-index: 1050; /* Уровень наложения */
+}
+
+
+.glassmorphism-image {
+  position: relative;
+  width: 35px; /* Ширина изображения */
+  height: 35px; /* Высота изображения */
+  background-position: center; /* Центрирование изображения */
+  z-index: 1060; /* Уровень наложения */
+}
+
+.divider {
+  width: 1px; /* Ширина полосы */
+  background-color: rgba(255, 255, 255, 0.3); /* Цвет полосы */
+  height: 50%; /* Высота полосы */
+}
+
+
+
 
 
 
