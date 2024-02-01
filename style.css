@@ -193,10 +193,6 @@ body {
 
 
 .glassmorphism-container {
-  padding-left: 10px; /* Увеличивает внутренний отступ контейнера */
-  padding-right: 10px; /* Увеличивает внутренний отступ контейнера */
-  padding-top: 0px;
-
   right: 15px;
   bottom: 40px;
   position: absolute;
@@ -225,7 +221,7 @@ body {
 .divider {
   width: 1px; /* Ширина полосы */
   background-color: rgba(255, 255, 255, 0.3); /* Цвет полосы */
-  height: 50%; /* Высота полосы */
+  height: 40px; /* Высота полосы */
 }
 
 
