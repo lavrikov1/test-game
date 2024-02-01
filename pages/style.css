@@ -28,3 +28,10 @@ canvas {
     opacity: 0.7; /* Добавление матового эффекта (прозрачности) */
 }
 
+.logoAlfred {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.1;
+}
+
