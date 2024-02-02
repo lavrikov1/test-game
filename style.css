@@ -214,8 +214,8 @@ body {
 
 .glassmorphism-image {
   position: relative;
-  width: 35px; /* Ширина изображения */
-  height: 35px; /* Высота изображения */
+  width: 45px; /* Ширина изображения */
+  height: 45px; /* Высота изображения */
   background-position: center; /* Центрирование изображения */
   z-index: 1060; /* Уровень наложения */
 }
@@ -238,7 +238,7 @@ body {
 
   transition: right 0.2s ease-in-out;
   right: -250px; /* Начальное положение за пределами экрана */
-  bottom: 89px;
+  bottom: 99px;
   position: absolute;
   display: flex;
   flex-direction: column; /* Указывает на горизонтальное расположение элементов */
@@ -262,8 +262,8 @@ body {
 
 .glassmorphism-image-vertical {
   position: relative;
-  width: 35px; /* Ширина изображения */
-  height: 35px; /* Высота изображения */
+  width: 45px; /* Ширина изображения */
+  height: 45px; /* Высота изображения */
   background-position: center; /* Центрирование изображения */
   z-index: 1070; /* Уровень наложения */
 }
